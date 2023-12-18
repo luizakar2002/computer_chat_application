@@ -15,7 +15,7 @@ class ListeningSocket
     public:
         ListeningSocket();
         ListeningSocket(int);
-        ~ListeningSocket();
+        ~ListeningSocket() = default;
 
         void    socket_init();
         void    binding();

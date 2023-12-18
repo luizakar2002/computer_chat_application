@@ -1,15 +1,21 @@
 NAME        = ./server
 
 SRCS        = $(wildcard *.cpp)
-OBJS        = $(SRCS:.cpp=.o)
-CC          = c++ 
-FLAGS		= -Wall -Werror -Wextra
+OBJS        = $(patsubst %.cpp,objs/%.o,$(SRCS))
+CC          = c++
+FLAGS       = -Wall -Werror -Wextra
 RM          = rm -rf
 
-all: $(NAME)
+all: objs $(NAME)
+
+objs:
+	@mkdir -p objs
 
 $(NAME): $(OBJS)
-	@$(CC)  $(FLAGS) $(OBJS) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+
+objs/%.o: %.cpp
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJS)
@@ -17,6 +23,6 @@ clean:
 fclean: clean
 	@$(RM) $(NAME)
 
-re:            fclean all
+re: fclean all
 
-.PHONY:        all clean fclean re
+.PHONY: all clean fclean re
